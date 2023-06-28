@@ -1,0 +1,37 @@
+{
+    "id": "40732de7-df57-4b7c-9fa0-025edd1b93a4",
+    "author": "",
+    "widgets": [
+        {
+            "id": "crud_check",
+            "name": "crud_check",
+            "description": "A sample widget",
+            "icon": "",
+            "tags":[]
+        }
+    ],
+    "sidebarLinks": [
+        {
+            "id": "crud_checkLink",
+            "label": "",
+            "description": "",
+            "target": "",
+            "icon": "",
+            "roles":[]
+        }
+    ],
+    "uis": [
+        {
+            "id": "crud_checkLink",
+            "label":"",
+            "description": "",
+            "roles": []
+        }
+    ],
+    "menuItems": [
+        {
+            "id": "crud_checkLink",
+            "title": "crud_check"
+        }
+    ]
+}
