@@ -16,13 +16,6 @@ const Widget1: React.FunctionComponent<IViolationTypesProps> = (props) => {
     const [data, setData] = React.useState(null);
     const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
-    // const mapActionData = React.useCallback((item) => {
-    //     console.log({ item });
-
-    //     return item;
-    // }, [])
-
-
     console.log({ data });
 
     return <>

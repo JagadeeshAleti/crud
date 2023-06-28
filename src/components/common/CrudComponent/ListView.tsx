@@ -191,9 +191,6 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
             } catch (e) {
                 console.log(e);
             }
-            // changeMode('list');
-
-
         }
         //     uxpContext.executeAction(model, action, { id: id }, { json: true })
         //         .then(res => {

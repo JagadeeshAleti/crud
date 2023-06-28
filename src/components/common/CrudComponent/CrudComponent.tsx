@@ -11,13 +11,14 @@ const CrudComponent: React.FunctionComponent<ICrudComponentProps> = (props) => {
     let { uxpContext, entityName, list, add, edit, roles } = props;
     const [mode, setMode] = React.useState('list')
 
-    function changeMode(mode: string) {
-        setMode(mode);
+    function changeMode(m: string) {
+        console.log(`Changing mode from ${mode} to ${m}`);
+        setMode(m);
     }
 
     return <div className='mda-spa-crud-component'>
         {mode === 'list' && <ListView {...list} uxpContext={uxpContext} entityName={entityName} roles={roles} changeMode={changeMode} />}
-        {mode === 'create' && <AddView {...add} uxpContext={uxpContext} entityName={entityName} />}
+        {mode === 'create' && <AddView {...add} uxpContext={uxpContext} entityName={entityName} changeMode={changeMode} />}
         {mode === 'edit' && <EditView {...edit} uxpContext={uxpContext} entityName={entityName} />}
 
     </div>
