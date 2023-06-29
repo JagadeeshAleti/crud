@@ -25,18 +25,12 @@ interface IErrorCodes {
     // this will be used to cvalidate the resposse 
     // Ex: {103202: [ {error: "ERR_REGISTRATION_NUMBER_ALREADY_EXISTS", message: "Registration number already exists"}  ]}
 }
-
-interface IResponseCodes {
-    successCode: number,
-    successMessage?: string,
-    errorCodes: IErrorCodes
-}
-
 interface IListViewProps {
-    default?: {
-        model: string, // to get the data
-        collection: string,
+    default: {
         itemId: string,
+        canDelete: boolean,
+        canEdit: boolean,
+        canCreate: boolean
         filterData?: (data: any[]) => any[],
         mapActionData?: (item: any) => any,
         labels?: {
@@ -44,7 +38,6 @@ interface IListViewProps {
             edit?: string,
             delete?: string
         },
-        responseCodes: IResponseCodes // this is for the given model action
         columns: IListColumn[],
         pageSize?: number, // number of items to load at once. default is 20 
         actions?: { // enable actions. defaults are true. pass false to disable
@@ -54,7 +47,6 @@ interface IListViewProps {
         }
         deleteItem?: { // set the if delete is enabled
             model: string,
-            responseCodes: IResponseCodes
         },
 
         toolbar?: {
@@ -137,12 +129,11 @@ interface IFormFieldDefinition {
 }
 interface IAddViewProps {
     default?: {
-        model: string, // to save the new record
-        action: string,
-        responseCodes: IResponseCodes // this is for the given model action
+        model?: string, // to save the new record
+        action?: string,
         formStructure: IFormFieldDefinition[]
-        afterSave: () => void,
-        onCancel: () => void,
+        afterSave?: () => void,
+        onCancel?: () => void,
         onChange?: (prevFormData: { [key: string]: any }, formData: { [key: string]: any }) => ({ [key: string]: any });
     }
     renderCustom?: React.FunctionComponent<IDefaultUXPProps> // this will overide the default form we have. you are required to render the form and handle form submition and error handeling.
@@ -150,17 +141,11 @@ interface IAddViewProps {
 
 interface IEditViewProps {
     default?: {
-        getDetails: {
-            model: string, // to get the items detaisl 
-            action: string,
-            responseCodes: IResponseCodes // this is for the given model action
-        },
-        model: string, // to save updated record
-        action: string,
-        responseCodes: IResponseCodes // this is for the given model action
+        model?: string, // to save updated record
+        action?: string,
         formStructure: IFormFieldDefinition[]
-        afterSave: () => void,
-        onCancel: () => void,
+        afterSave?: () => void,
+        onCancel?: () => void,
         onChange?: (prevFormData: { [key: string]: any }, formData: { [key: string]: any }) => ({ [key: string]: any });
     }
     renderCustom?: React.FunctionComponent<IDefaultUXPProps> // this will overide the default form we have. you are required to render the form and handle form submition and error handeling.
@@ -168,12 +153,8 @@ interface IEditViewProps {
 
 interface ICrudComponentProps extends IDefaultUXPProps {
     entityName: string // entity name Ex. Parking Operator, Manufacturer
-    roles?: {
-        list?: string[],
-        add?: string[],
-        edit?: string[],
-        delete?: string[],
-    },
+    model: string,
+    collection: string,
     list: IListViewProps,
     add: IAddViewProps
     edit: IEditViewProps

@@ -1,0 +1,1379 @@
+{
+  "models": [
+    {
+      "ApiRoutes": [],
+      "Definition": {
+        "actions": [
+          {
+            "canOverrideCredentials": false,
+            "capability": "",
+            "docs": "",
+            "initiate": false,
+            "name": "create",
+            "outputs": [
+              ""
+            ],
+            "parameters": [
+              "amount",
+              "description",
+              "name"
+            ],
+            "parametersExtended": [
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "amount"
+              },
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "description"
+              },
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "name"
+              }
+            ],
+            "published": false,
+            "schema": "{\"type\":\"object\",\"properties\":{\"_id\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"amount\":{\"type\":\"string\"}},\"required\":[\"_id\",\"name\",\"description\",\"amount\"]}",
+            "schemaFrozen": false,
+            "static": true
+          },
+          {
+            "canOverrideCredentials": false,
+            "capability": "",
+            "docs": "",
+            "initiate": false,
+            "name": "delete",
+            "outputs": [
+              ""
+            ],
+            "parameters": [
+              "_id"
+            ],
+            "parametersExtended": [
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "_id"
+              }
+            ],
+            "published": false,
+            "schema": "",
+            "schemaFrozen": false,
+            "static": true
+          },
+          {
+            "canOverrideCredentials": false,
+            "capability": "",
+            "docs": "",
+            "initiate": false,
+            "name": "getAllTypes",
+            "outputs": [
+              ""
+            ],
+            "parameters": [],
+            "parametersExtended": [],
+            "published": false,
+            "schema": "{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_id\":{\"type\":\"string\"},\"title\":{\"type\":\"string\"},\"operatorId\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"amount\":{\"type\":\"string\"},\"currency\":{\"type\":\"string\"},\"parkingGroup\":{\"type\":\"string\"},\"status\":{\"type\":\"string\"}},\"required\":[\"_id\",\"title\",\"operatorId\",\"description\",\"amount\",\"currency\",\"parkingGroup\",\"status\"]}}",
+            "schemaFrozen": false,
+            "static": true
+          },
+          {
+            "canOverrideCredentials": false,
+            "capability": "",
+            "docs": "",
+            "initiate": false,
+            "name": "getById",
+            "outputs": [
+              ""
+            ],
+            "parameters": [
+              "_id"
+            ],
+            "parametersExtended": [
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "_id"
+              }
+            ],
+            "published": false,
+            "schema": "{\"type\":\"object\",\"properties\":{\"_id\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"amount\":{\"type\":\"string\"}},\"required\":[\"_id\",\"name\",\"description\",\"amount\"]}",
+            "schemaFrozen": false,
+            "static": true
+          },
+          {
+            "canOverrideCredentials": false,
+            "capability": "",
+            "docs": "",
+            "initiate": false,
+            "name": "update",
+            "outputs": [
+              ""
+            ],
+            "parameters": [
+              "_id",
+              "amount",
+              "description",
+              "name"
+            ],
+            "parametersExtended": [
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "_id"
+              },
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "amount"
+              },
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "description"
+              },
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "name"
+              }
+            ],
+            "published": false,
+            "schema": "{\"type\":\"object\",\"properties\":{\"matchedCount\":{\"type\":\"integer\"},\"modifiedCount\":{\"type\":\"integer\"}},\"required\":[\"matchedCount\",\"modifiedCount\"]}",
+            "schemaFrozen": false,
+            "static": true
+          }
+        ],
+        "attributes": [],
+        "flows": {
+          "blocks": [
+            {
+              "CollectionName": "01b27d1f-d0b3-4ffc-f433-a5689ef64c7c",
+              "configuration": "[]",
+              "connections": {
+                "inputs": [
+                  {
+                    "source": "d8663f46-389b-4ebf-9808-38e077dcb51d:output:amount",
+                    "target": "841f0a16-4624-4bc4-8a67-17fc518e38c3:input:amount"
+                  },
+                  {
+                    "source": "d8663f46-389b-4ebf-9808-38e077dcb51d:output:description",
+                    "target": "841f0a16-4624-4bc4-8a67-17fc518e38c3:input:description"
+                  },
+                  {
+                    "source": "d8663f46-389b-4ebf-9808-38e077dcb51d:output:name",
+                    "target": "841f0a16-4624-4bc4-8a67-17fc518e38c3:input:name"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "source": "841f0a16-4624-4bc4-8a67-17fc518e38c3:output:output",
+                    "target": "a4ae1b9c-a8b5-4186-8f40-774737f9db76:input:input"
+                  }
+                ]
+              },
+              "id": "841f0a16-4624-4bc4-8a67-17fc518e38c3",
+              "inputValues": [
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "amount",
+                  "label": "amount",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "description",
+                  "label": "description",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "name",
+                  "label": "name",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "trigger",
+                  "label": "Trigger",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                },
+                {
+                  "description": "Data to be inserted",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "__data__",
+                  "label": "Data",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "text",
+                  "value": ""
+                }
+              ],
+              "outputValues": [
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "__error__",
+                  "label": "Error",
+                  "type": "error"
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "output",
+                  "label": "All Output",
+                  "type": ""
+                }
+              ],
+              "position": {
+                "left": 322,
+                "top": 92
+              },
+              "ReceiveIndividualFields": false,
+              "surface": "create",
+              "timeout": 5000,
+              "title": "Insert one document",
+              "type": "modelcollections:insertone",
+              "UpdateAsAttributes": true,
+              "UseContentAwareAutoFill": false
+            },
+            {
+              "CollectionName": "01b27d1f-d0b3-4ffc-f433-a5689ef64c7c",
+              "configuration": "[]",
+              "connections": {
+                "inputs": [
+                  {
+                    "source": "e20749c9-d8db-41cd-b272-6185546de9c4:output:output",
+                    "target": "2e0b5c7f-ad65-438e-8448-ab2f8695c7d4:input:trigger"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "source": "2e0b5c7f-ad65-438e-8448-ab2f8695c7d4:output:output",
+                    "target": "9b13297f-2d38-47da-cf53-7e1a1aab8e1f:input:input"
+                  }
+                ]
+              },
+              "id": "2e0b5c7f-ad65-438e-8448-ab2f8695c7d4",
+              "inputValues": [
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "trigger",
+                  "label": "Trigger",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                }
+              ],
+              "outputValues": [
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "__error__",
+                  "label": "Error",
+                  "type": "error"
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "output",
+                  "label": "All Output",
+                  "type": ""
+                }
+              ],
+              "position": {
+                "left": 303,
+                "top": 88
+              },
+              "ReceiveIndividualFields": false,
+              "surface": "getAllTypes",
+              "TakeFilterFromPin": false,
+              "timeout": 5000,
+              "title": "Find all documents",
+              "type": "modelcollections:findall",
+              "UpdateAsAttributes": false
+            },
+            {
+              "CollectionName": "01b27d1f-d0b3-4ffc-f433-a5689ef64c7c",
+              "configuration": "[{\"IsEither\":true,\"Conditions\":[{\"Attribute\":\"_id\",\"Operator\":\"eq\",\"Value\":\"_id\",\"IsPin\":true}],\"Groups\":[]}]",
+              "connections": {
+                "inputs": [
+                  {
+                    "source": "41c7d481-c544-4e33-b50c-caa51a2b5eff:output:_id",
+                    "target": "04d0482f-7cac-4c0d-d5f4-071a8237bf60:input:_id"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "source": "04d0482f-7cac-4c0d-d5f4-071a8237bf60:output:output",
+                    "target": "ff6ecd6a-7a2e-42bc-abc2-e067905a21ea:input:input"
+                  }
+                ]
+              },
+              "id": "04d0482f-7cac-4c0d-d5f4-071a8237bf60",
+              "inputValues": [
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "_id",
+                  "label": "_id",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "trigger",
+                  "label": "Trigger",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                }
+              ],
+              "outputValues": [
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "__error__",
+                  "label": "Error",
+                  "type": "error"
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "output",
+                  "label": "All Output",
+                  "type": ""
+                }
+              ],
+              "position": {
+                "left": 320,
+                "top": 100
+              },
+              "ReceiveIndividualFields": false,
+              "surface": "getById",
+              "TakeFilterFromPin": false,
+              "timeout": 5000,
+              "title": "Find one document",
+              "type": "modelcollections:findone",
+              "UpdateAsAttributes": false
+            },
+            {
+              "CollectionName": "01b27d1f-d0b3-4ffc-f433-a5689ef64c7c",
+              "configuration": "[{\"IsEither\":true,\"Conditions\":[{\"Attribute\":\"_id\",\"Operator\":\"eq\",\"Value\":\"_id\",\"IsPin\":true}],\"Groups\":[]}]",
+              "connections": {
+                "inputs": [
+                  {
+                    "source": "b019c46a-50b5-4e81-9bdd-ae6d7fd598d3:output:_id",
+                    "target": "eab06368-7cff-46d9-b77e-810a81873147:input:_id"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "source": "eab06368-7cff-46d9-b77e-810a81873147:output:output",
+                    "target": "d15a55ae-ee3d-4eb9-d316-4a2b2de59c40:input:input"
+                  }
+                ]
+              },
+              "id": "eab06368-7cff-46d9-b77e-810a81873147",
+              "inputValues": [
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "_id",
+                  "label": "_id",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "trigger",
+                  "label": "Trigger",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                }
+              ],
+              "outputValues": [
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "__error__",
+                  "label": "Error",
+                  "type": "error"
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "output",
+                  "label": "All Output",
+                  "type": ""
+                }
+              ],
+              "position": {
+                "left": 314,
+                "top": 77
+              },
+              "ReceiveIndividualFields": false,
+              "surface": "delete",
+              "TakeFilterFromPin": false,
+              "timeout": 5000,
+              "title": "Delete one document",
+              "type": "modelcollections:deleteone",
+              "UpdateAsAttributes": false
+            },
+            {
+              "CollectionName": "01b27d1f-d0b3-4ffc-f433-a5689ef64c7c",
+              "configuration": "[{\"IsEither\":true,\"Conditions\":[{\"Attribute\":\"_id\",\"Operator\":\"eq\",\"Value\":\"_id\",\"IsPin\":true}],\"Groups\":[]}]",
+              "connections": {
+                "inputs": [
+                  {
+                    "source": "d6a0f2cd-cac6-4b0c-dc60-e77b2c3fe85d:output:_id",
+                    "target": "76399ea4-9db2-4a4d-8aec-29ba14304cbe:input:_id"
+                  },
+                  {
+                    "source": "d6a0f2cd-cac6-4b0c-dc60-e77b2c3fe85d:output:amount",
+                    "target": "76399ea4-9db2-4a4d-8aec-29ba14304cbe:input:amount"
+                  },
+                  {
+                    "source": "d6a0f2cd-cac6-4b0c-dc60-e77b2c3fe85d:output:description",
+                    "target": "76399ea4-9db2-4a4d-8aec-29ba14304cbe:input:description"
+                  },
+                  {
+                    "source": "d6a0f2cd-cac6-4b0c-dc60-e77b2c3fe85d:output:name",
+                    "target": "76399ea4-9db2-4a4d-8aec-29ba14304cbe:input:name"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "source": "76399ea4-9db2-4a4d-8aec-29ba14304cbe:output:output",
+                    "target": "89715bfa-3902-4627-b784-497a4373f62e:input:input"
+                  }
+                ]
+              },
+              "id": "76399ea4-9db2-4a4d-8aec-29ba14304cbe",
+              "inputValues": [
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "_id",
+                  "label": "_id",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "amount",
+                  "label": "amount",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "description",
+                  "label": "description",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "name",
+                  "label": "name",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "trigger",
+                  "label": "Trigger",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                },
+                {
+                  "description": "Data to be inserted",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "__data__",
+                  "label": "Data",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "text",
+                  "value": ""
+                }
+              ],
+              "outputValues": [
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "__error__",
+                  "label": "Error",
+                  "type": "error"
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "output",
+                  "label": "All Output",
+                  "type": ""
+                }
+              ],
+              "position": {
+                "left": 364,
+                "top": 105
+              },
+              "ReceiveIndividualFields": false,
+              "surface": "update",
+              "TakeFilterFromPin": false,
+              "timeout": 5000,
+              "title": "Update one document",
+              "type": "modelcollections:updateone",
+              "UpdateAsAttributes": true
+            },
+            {
+              "actionName": "create",
+              "canOverrideCredentials": false,
+              "capability": "",
+              "connections": {
+                "inputs": [],
+                "outputs": [
+                  {
+                    "source": "d8663f46-389b-4ebf-9808-38e077dcb51d:output:amount",
+                    "target": "841f0a16-4624-4bc4-8a67-17fc518e38c3:input:amount"
+                  },
+                  {
+                    "source": "d8663f46-389b-4ebf-9808-38e077dcb51d:output:description",
+                    "target": "841f0a16-4624-4bc4-8a67-17fc518e38c3:input:description"
+                  },
+                  {
+                    "source": "d8663f46-389b-4ebf-9808-38e077dcb51d:output:name",
+                    "target": "841f0a16-4624-4bc4-8a67-17fc518e38c3:input:name"
+                  }
+                ]
+              },
+              "debug": false,
+              "docs": "",
+              "id": "d8663f46-389b-4ebf-9808-38e077dcb51d",
+              "initiate": false,
+              "inputValues": [],
+              "outputValues": [
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "__error__",
+                  "label": "Error",
+                  "type": "error"
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "amount",
+                  "label": "amount",
+                  "type": ""
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "description",
+                  "label": "description",
+                  "type": ""
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "name",
+                  "label": "name",
+                  "type": ""
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "output",
+                  "label": "All Output",
+                  "type": ""
+                }
+              ],
+              "position": {
+                "left": 60,
+                "top": 60
+              },
+              "preProcessService": "",
+              "published": false,
+              "roles": [],
+              "schema": "{\"type\":\"object\",\"properties\":{\"_id\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"amount\":{\"type\":\"string\"}},\"required\":[\"_id\",\"name\",\"description\",\"amount\"]}",
+              "static": true,
+              "surface": "create",
+              "title": "Action",
+              "type": "actionstart"
+            },
+            {
+              "actionName": "delete",
+              "canOverrideCredentials": false,
+              "capability": "",
+              "connections": {
+                "inputs": [],
+                "outputs": [
+                  {
+                    "source": "b019c46a-50b5-4e81-9bdd-ae6d7fd598d3:output:_id",
+                    "target": "eab06368-7cff-46d9-b77e-810a81873147:input:_id"
+                  }
+                ]
+              },
+              "debug": false,
+              "docs": "",
+              "id": "b019c46a-50b5-4e81-9bdd-ae6d7fd598d3",
+              "initiate": false,
+              "inputValues": [],
+              "outputValues": [
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "__error__",
+                  "label": "Error",
+                  "type": "error"
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "_id",
+                  "label": "_id",
+                  "type": ""
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "output",
+                  "label": "All Output",
+                  "type": ""
+                }
+              ],
+              "position": {
+                "left": 60,
+                "top": 60
+              },
+              "preProcessService": "",
+              "published": false,
+              "roles": [],
+              "schema": "",
+              "static": true,
+              "surface": "delete",
+              "title": "Action",
+              "type": "actionstart"
+            },
+            {
+              "actionName": "getAllTypes",
+              "canOverrideCredentials": false,
+              "capability": "",
+              "connections": {
+                "inputs": [],
+                "outputs": [
+                  {
+                    "source": "e20749c9-d8db-41cd-b272-6185546de9c4:output:output",
+                    "target": "2e0b5c7f-ad65-438e-8448-ab2f8695c7d4:input:trigger"
+                  }
+                ]
+              },
+              "debug": false,
+              "docs": "",
+              "id": "e20749c9-d8db-41cd-b272-6185546de9c4",
+              "initiate": false,
+              "inputValues": [],
+              "outputValues": [
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "__error__",
+                  "label": "Error",
+                  "type": "error"
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "output",
+                  "label": "All Output",
+                  "type": ""
+                }
+              ],
+              "position": {
+                "left": 60,
+                "top": 60
+              },
+              "preProcessService": "",
+              "published": false,
+              "roles": [],
+              "schema": "{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_id\":{\"type\":\"string\"},\"title\":{\"type\":\"string\"},\"operatorId\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"amount\":{\"type\":\"string\"},\"currency\":{\"type\":\"string\"},\"parkingGroup\":{\"type\":\"string\"},\"status\":{\"type\":\"string\"}},\"required\":[\"_id\",\"title\",\"operatorId\",\"description\",\"amount\",\"currency\",\"parkingGroup\",\"status\"]}}",
+              "static": true,
+              "surface": "getAllTypes",
+              "title": "Action",
+              "type": "actionstart"
+            },
+            {
+              "actionName": "getById",
+              "canOverrideCredentials": false,
+              "capability": "",
+              "connections": {
+                "inputs": [],
+                "outputs": [
+                  {
+                    "source": "41c7d481-c544-4e33-b50c-caa51a2b5eff:output:_id",
+                    "target": "04d0482f-7cac-4c0d-d5f4-071a8237bf60:input:_id"
+                  }
+                ]
+              },
+              "debug": false,
+              "docs": "",
+              "id": "41c7d481-c544-4e33-b50c-caa51a2b5eff",
+              "initiate": false,
+              "inputValues": [],
+              "outputValues": [
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "__error__",
+                  "label": "Error",
+                  "type": "error"
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "_id",
+                  "label": "_id",
+                  "type": ""
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "output",
+                  "label": "All Output",
+                  "type": ""
+                }
+              ],
+              "position": {
+                "left": 100,
+                "top": 100
+              },
+              "preProcessService": "",
+              "published": false,
+              "roles": [],
+              "schema": "{\"type\":\"object\",\"properties\":{\"_id\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"amount\":{\"type\":\"string\"}},\"required\":[\"_id\",\"name\",\"description\",\"amount\"]}",
+              "static": true,
+              "surface": "getById",
+              "title": "Action",
+              "type": "actionstart"
+            },
+            {
+              "actionName": "update",
+              "canOverrideCredentials": false,
+              "capability": "",
+              "connections": {
+                "inputs": [],
+                "outputs": [
+                  {
+                    "source": "d6a0f2cd-cac6-4b0c-dc60-e77b2c3fe85d:output:_id",
+                    "target": "76399ea4-9db2-4a4d-8aec-29ba14304cbe:input:_id"
+                  },
+                  {
+                    "source": "d6a0f2cd-cac6-4b0c-dc60-e77b2c3fe85d:output:amount",
+                    "target": "76399ea4-9db2-4a4d-8aec-29ba14304cbe:input:amount"
+                  },
+                  {
+                    "source": "d6a0f2cd-cac6-4b0c-dc60-e77b2c3fe85d:output:description",
+                    "target": "76399ea4-9db2-4a4d-8aec-29ba14304cbe:input:description"
+                  },
+                  {
+                    "source": "d6a0f2cd-cac6-4b0c-dc60-e77b2c3fe85d:output:name",
+                    "target": "76399ea4-9db2-4a4d-8aec-29ba14304cbe:input:name"
+                  }
+                ]
+              },
+              "debug": false,
+              "docs": "",
+              "id": "d6a0f2cd-cac6-4b0c-dc60-e77b2c3fe85d",
+              "initiate": false,
+              "inputValues": [],
+              "outputValues": [
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "__error__",
+                  "label": "Error",
+                  "type": "error"
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "_id",
+                  "label": "_id",
+                  "type": ""
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "amount",
+                  "label": "amount",
+                  "type": ""
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "description",
+                  "label": "description",
+                  "type": ""
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "name",
+                  "label": "name",
+                  "type": ""
+                },
+                {
+                  "dataType": "",
+                  "description": "",
+                  "documentation": "",
+                  "example": "",
+                  "id": "output",
+                  "label": "All Output",
+                  "type": ""
+                }
+              ],
+              "position": {
+                "left": 100,
+                "top": 100
+              },
+              "preProcessService": "",
+              "published": false,
+              "roles": [],
+              "schema": "{\"type\":\"object\",\"properties\":{\"matchedCount\":{\"type\":\"integer\"},\"modifiedCount\":{\"type\":\"integer\"}},\"required\":[\"matchedCount\",\"modifiedCount\"]}",
+              "static": true,
+              "surface": "update",
+              "title": "Action",
+              "type": "actionstart"
+            },
+            {
+              "connections": {
+                "inputs": [
+                  {
+                    "source": "04d0482f-7cac-4c0d-d5f4-071a8237bf60:output:output",
+                    "target": "ff6ecd6a-7a2e-42bc-abc2-e067905a21ea:input:input"
+                  }
+                ],
+                "outputs": []
+              },
+              "fieldName": "",
+              "id": "ff6ecd6a-7a2e-42bc-abc2-e067905a21ea",
+              "inputValues": [
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "input",
+                  "label": "Value",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "trigger",
+                  "label": "Trigger",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                }
+              ],
+              "outputValues": [],
+              "position": {
+                "left": 540,
+                "top": 100
+              },
+              "surface": "getById",
+              "title": "Output",
+              "type": "actionoutput2"
+            },
+            {
+              "connections": {
+                "inputs": [
+                  {
+                    "source": "2e0b5c7f-ad65-438e-8448-ab2f8695c7d4:output:output",
+                    "target": "9b13297f-2d38-47da-cf53-7e1a1aab8e1f:input:input"
+                  }
+                ],
+                "outputs": []
+              },
+              "fieldName": "",
+              "id": "9b13297f-2d38-47da-cf53-7e1a1aab8e1f",
+              "inputValues": [
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "input",
+                  "label": "Value",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "trigger",
+                  "label": "Trigger",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                }
+              ],
+              "outputValues": [],
+              "position": {
+                "left": 532,
+                "top": 116
+              },
+              "surface": "getAllTypes",
+              "title": "Output",
+              "type": "actionoutput2"
+            },
+            {
+              "connections": {
+                "inputs": [
+                  {
+                    "source": "76399ea4-9db2-4a4d-8aec-29ba14304cbe:output:output",
+                    "target": "89715bfa-3902-4627-b784-497a4373f62e:input:input"
+                  }
+                ],
+                "outputs": []
+              },
+              "fieldName": "",
+              "id": "89715bfa-3902-4627-b784-497a4373f62e",
+              "inputValues": [
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "input",
+                  "label": "Value",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "trigger",
+                  "label": "Trigger",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                }
+              ],
+              "outputValues": [],
+              "position": {
+                "left": 631,
+                "top": 153
+              },
+              "surface": "update",
+              "title": "Output",
+              "type": "actionoutput2"
+            },
+            {
+              "connections": {
+                "inputs": [
+                  {
+                    "source": "841f0a16-4624-4bc4-8a67-17fc518e38c3:output:output",
+                    "target": "a4ae1b9c-a8b5-4186-8f40-774737f9db76:input:input"
+                  }
+                ],
+                "outputs": []
+              },
+              "fieldName": "",
+              "id": "a4ae1b9c-a8b5-4186-8f40-774737f9db76",
+              "inputValues": [
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "input",
+                  "label": "Value",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "trigger",
+                  "label": "Trigger",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                }
+              ],
+              "outputValues": [],
+              "position": {
+                "left": 559,
+                "top": 140
+              },
+              "surface": "create",
+              "title": "Output",
+              "type": "actionoutput2"
+            },
+            {
+              "connections": {
+                "inputs": [
+                  {
+                    "source": "eab06368-7cff-46d9-b77e-810a81873147:output:output",
+                    "target": "d15a55ae-ee3d-4eb9-d316-4a2b2de59c40:input:input"
+                  }
+                ],
+                "outputs": []
+              },
+              "fieldName": "",
+              "id": "d15a55ae-ee3d-4eb9-d316-4a2b2de59c40",
+              "inputValues": [
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "input",
+                  "label": "Value",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                },
+                {
+                  "description": "",
+                  "disablelog": "",
+                  "documentation": "",
+                  "id": "trigger",
+                  "label": "Trigger",
+                  "transformation": "",
+                  "transformationOptions": "",
+                  "type": "",
+                  "value": ""
+                }
+              ],
+              "outputValues": [],
+              "position": {
+                "left": 545,
+                "top": 123
+              },
+              "surface": "delete",
+              "title": "Output",
+              "type": "actionoutput2"
+            }
+          ],
+          "position": {
+            "left": 0,
+            "top": 0
+          }
+        },
+        "sources": [
+          {
+            "canOverrideCredentials": false,
+            "capability": "",
+            "docs": "",
+            "initiate": false,
+            "name": "create",
+            "outputs": [
+              ""
+            ],
+            "parameters": [
+              "amount",
+              "description",
+              "name"
+            ],
+            "parametersExtended": [
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "amount"
+              },
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "description"
+              },
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "name"
+              }
+            ],
+            "published": false,
+            "schema": "{\"type\":\"object\",\"properties\":{\"_id\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"amount\":{\"type\":\"string\"}},\"required\":[\"_id\",\"name\",\"description\",\"amount\"]}",
+            "schemaFrozen": false,
+            "static": true
+          },
+          {
+            "canOverrideCredentials": false,
+            "capability": "",
+            "docs": "",
+            "initiate": false,
+            "name": "delete",
+            "outputs": [
+              ""
+            ],
+            "parameters": [
+              "_id"
+            ],
+            "parametersExtended": [
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "_id"
+              }
+            ],
+            "published": false,
+            "schema": "",
+            "schemaFrozen": false,
+            "static": true
+          },
+          {
+            "canOverrideCredentials": false,
+            "capability": "",
+            "docs": "",
+            "initiate": false,
+            "name": "getAllTypes",
+            "outputs": [
+              ""
+            ],
+            "parameters": [],
+            "parametersExtended": [],
+            "published": false,
+            "schema": "{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"_id\":{\"type\":\"string\"},\"title\":{\"type\":\"string\"},\"operatorId\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"amount\":{\"type\":\"string\"},\"currency\":{\"type\":\"string\"},\"parkingGroup\":{\"type\":\"string\"},\"status\":{\"type\":\"string\"}},\"required\":[\"_id\",\"title\",\"operatorId\",\"description\",\"amount\",\"currency\",\"parkingGroup\",\"status\"]}}",
+            "schemaFrozen": false,
+            "static": true
+          },
+          {
+            "canOverrideCredentials": false,
+            "capability": "",
+            "docs": "",
+            "initiate": false,
+            "name": "getById",
+            "outputs": [
+              ""
+            ],
+            "parameters": [
+              "_id"
+            ],
+            "parametersExtended": [
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "_id"
+              }
+            ],
+            "published": false,
+            "schema": "{\"type\":\"object\",\"properties\":{\"_id\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"description\":{\"type\":\"string\"},\"amount\":{\"type\":\"string\"}},\"required\":[\"_id\",\"name\",\"description\",\"amount\"]}",
+            "schemaFrozen": false,
+            "static": true
+          },
+          {
+            "canOverrideCredentials": false,
+            "capability": "",
+            "docs": "",
+            "initiate": false,
+            "name": "update",
+            "outputs": [
+              ""
+            ],
+            "parameters": [
+              "_id",
+              "amount",
+              "description",
+              "name"
+            ],
+            "parametersExtended": [
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "_id"
+              },
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "amount"
+              },
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "description"
+              },
+              {
+                "dataType": "",
+                "docs": "",
+                "example": "",
+                "id": "name"
+              }
+            ],
+            "published": false,
+            "schema": "{\"type\":\"object\",\"properties\":{\"matchedCount\":{\"type\":\"integer\"},\"modifiedCount\":{\"type\":\"integer\"}},\"required\":[\"matchedCount\",\"modifiedCount\"]}",
+            "schemaFrozen": false,
+            "static": true
+          }
+        ],
+        "uioptions": {},
+        "version": "v2"
+      },
+      "Icon": "",
+      "JSModules": [],
+      "Key": "83",
+      "MetadataDictionary": "null",
+      "ModelCollections": [
+        {
+          "Attributes": "[{\"name\":\"name\",\"dataType\":\"string\"},{\"name\":\"description\",\"dataType\":\"string\"},{\"name\":\"amount\",\"dataType\":\"string\"}]",
+          "GUID": "01b27d1f-d0b3-4ffc-f433-a5689ef64c7c",
+          "MapKey": "83",
+          "Name": "users"
+        }
+      ],
+      "Name": "crud",
+      "Roles": [],
+      "UIDefinition": null
+    }
+  ],
+  "version": "2.0"
+}

@@ -8,8 +8,7 @@ import ListView from './ListView';
 
 const CrudComponent: React.FunctionComponent<ICrudComponentProps> = (props) => {
 
-    let { uxpContext, entityName, list, add, edit, roles } = props;
-    let { model, collection } = list?.default;
+    let { uxpContext, entityName,list, add, edit, model, collection } = props;
 
     const [id, setId] = React.useState(null);
     const [mode, setMode] = React.useState<'list' | 'add' | 'edit'>('list');
@@ -23,7 +22,7 @@ const CrudComponent: React.FunctionComponent<ICrudComponentProps> = (props) => {
     }
 
     return <div className='mda-spa-crud-component'>
-        {mode === 'list' && <ListView {...list} uxpContext={uxpContext} entityName={entityName} roles={roles} changeMode={changeMode} />}
+        {mode === 'list' && <ListView {...list} uxpContext={uxpContext} entityName={entityName} changeMode={changeMode} model={model} collection={collection} />}
         {mode === 'add' && <AddView {...add} uxpContext={uxpContext} entityName={entityName} changeMode={changeMode} model={model} collection={collection} />}
         {mode === 'edit' && <EditView {...edit} uxpContext={uxpContext} entityName={entityName} changeMode={changeMode} id={id} model={model} collection={collection} />}
 

@@ -1,9 +1,7 @@
 import * as React from 'react'
-import { Link, useRouteMatch } from 'react-router-dom';
-import { Button, FormField, IconButton, IDataTableColumn, Input, SearchBox, Tooltip, useToast } from 'uxp/components';
+import { Button, FormField, IconButton, IDataTableColumn, Input, SearchBox, useToast } from 'uxp/components';
 import { IDefaultUXPProps, IListViewProps } from '../../../../crud-component';
-import { debounce, handleErrorResponse, handleSuccessResponse, hasAnyRole } from '../../../utils';
-import { Conditional } from '../ConditionalComponent';
+import { debounce, handleErrorResponse } from '../../../utils';
 import useExportToExcel from '../CustomHooks/useExportToExcel';
 import ConfirmPopup from '../PopupAlert/ConfirmPopup';
 import MemorizedDataTable from './components/MemorizedDataTable';
@@ -19,13 +17,12 @@ import { format } from 'date-fns';
 
 interface IListProps extends IDefaultUXPProps, IListViewProps {
     entityName: string,
-    roles: any
     changeMode: any
 }
 
 const ListView: React.FunctionComponent<IListProps> = (props) => {
 
-    let { uxpContext, renderCustom: CustomListComponent, roles } = props
+    let { uxpContext, renderCustom: CustomListComponent } = props
 
     return <div className={classNames("mda-spa-crud-component-list-container")}>
         {
@@ -37,7 +34,7 @@ const ListView: React.FunctionComponent<IListProps> = (props) => {
 }
 
 export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
-    let { uxpContext, entityName, roles, default: { model, collection, labels, mapActionData, filterData, responseCodes, columns, pageSize, actions, deleteItem, itemId, toolbar }, renderCustom, changeMode } = props
+    let { uxpContext, entityName, model, collection, default: { labels, mapActionData, filterData, columns, pageSize, deleteItem, itemId, toolbar, canCreate, canDelete, canEdit }, renderCustom, changeMode } = props
 
     let { show: showToolbar, buttons, search } = toolbar
 
@@ -123,9 +120,8 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
 
                 }).catch(e => {
                     console.log('Unable to load data to table. Exception: ', e);
-                    let { valid, msg } = handleErrorResponse(e, responseCodes.errorCodes)
                     done({ items: [], pageToken: last })
-                    toast.error(msg)
+                    toast.error('Unable to load data to table. Exception')
                 })
 
         })
@@ -160,27 +156,24 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
             title: 'Actions',
             width: '',
             renderColumn: (item) => <div className='mda-spa-crud-list-action-column'>
-                {/* {
-                        canEdit &&
-                        <Link to={`${path}/edit/${item[itemId]}`} > */}
-                <Button
-                    icon={`${editIcon}`}
-                    title={labels?.edit || 'Edit'}
-                    onClick={() => changeMode('edit', item[itemId])}
-                />
-                {/* </Link>
-                    } */}
-                {/* {
-                        canDelete && */}
-                <Button
-                    icon={`${deleteIcon}`}
-                    title='Delete'
-                    onClick={() => { setDeleteId(item[itemId]) }}
-                />
-                {/* } */}
+                {canEdit &&
+                    <Button
+                        icon={`${editIcon}`}
+                        title={labels?.edit || 'Edit'}
+                        onClick={() => changeMode('edit', item[itemId])}
+                    />
+                }
+
+                {canDelete &&
+                    <Button
+                        icon={`${deleteIcon}`}
+                        title='Delete'
+                        onClick={() => { setDeleteId(item[itemId]) }}
+                    />
+                }
+
             </div>
         })
-        // }
         return _columns
     }, [columns])
 
@@ -191,7 +184,7 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
 
     async function onDeleteItem(id: string) {
         if (deleteItem) {
-            let { default: { collection } } = props;
+            let { collection } = props;
             try {
                 const params = {
                     _id: id,
@@ -199,40 +192,13 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
                     collection
                 }
                 await uxpContext.executeService("Lucy", "DeleteDocument", params);
-                toast.success(`Delete successfully!!!!`)
+                toast.success(`${entityName} deleted successfully!!!!`)
                 setCounter(prev => (prev += 1))
                 setDeleteId(null)
             } catch (e) {
                 console.log(e);
             }
         }
-        //     uxpContext.executeAction(model, action, { id: id }, { json: true })
-        //         .then(res => {
-        //             console.log("Response ", res);
-        //             let { valid, data } = handleSuccessResponse(res, deleteResponseCodes.successCode)
-
-        //             if (valid) {
-        //                 toast.success(deleteResponseCodes.successMessage ? deleteResponseCodes.successMessage : `${entityName} deleted`)
-        //                 setCounter(prev => (prev += 1))
-        //                 setDeleteId(null)
-        //             }
-        //             else {
-        //                 toast.error("Invalid Response")
-        //                 setCounter(prev => (prev += 1))
-        //                 setDeleteId(null)
-        //             }
-
-        //         })
-        //         .catch(e => {
-        //             console.log(`Unable to delete ${entityName}. Exception: `, e);
-        //             let { valid, msg } = handleErrorResponse(e, deleteResponseCodes.errorCodes)
-        //             toast.error(msg)
-        //             setDeleteId(null)
-        //         })
-        // }
-        // else {
-        //     toast.error("No delete option has configured")
-        // }
     }
 
 
@@ -265,12 +231,14 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
 
         <div className="toolbar">
             <div className="left">
-                <Button
-                    className='add-button'
-                    title={buttons?.add?.label || labels?.add || "Add"}
-                    onClick={() => changeMode('add')}
-                    icon={`${plusIcon}`}
-                />
+                {canCreate &&
+                    <Button
+                        className='add-button'
+                        title={buttons?.add?.label || labels?.add || "Add"}
+                        onClick={() => changeMode('add')}
+                        icon={`${plusIcon}`}
+                    />
+                }
 
                 {buttons?.export?.show &&
                     <Button

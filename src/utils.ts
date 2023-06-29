@@ -1,7 +1,6 @@
 import React from "react";
 import { IErrorCodes, IErrorProps } from "../crud-component";
 import { IContextProvider } from "./uxp"; 
-import * as RoleManager from "./role-manager";
 
 
 export function debounce(func: Function, wait: number, immediate?: boolean) {
@@ -78,14 +77,6 @@ export function handleErrorResponse(error: any, errorCodes: IErrorCodes): { vali
     if (!_error) return { valid: true, msg: 'Something went wrong' }
     return { valid: true, msg: _error.message }
 
-}
-
-export async function hasRole(context: IContextProvider, role: string) {
-    return RoleManager.hasRole(role);
-}
-
-export async function hasAnyRole(context: IContextProvider, roles: string[]) {
-    return RoleManager.hasAnyRole(roles);
 }
 
 /**

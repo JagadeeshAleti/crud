@@ -24,42 +24,34 @@ const AddView: React.FunctionComponent<IAddItemFormProps> = (props) => {
 }
 
 const AddForm: React.FunctionComponent<IAddItemFormProps> = (props) => {
-    let { uxpContext, entityName, default: { model, action, responseCodes, formStructure, afterSave, onCancel, onChange }, renderCustom } = props
+    let { uxpContext, entityName, model, collection, changeMode, default: { formStructure } = {}} = props
     let toast = useToast()
 
-    async function handleSubmit(data: any) {
-        return new Promise<any>((done, nope) => {
-            uxpContext.executeAction(model, action, data, { json: true })
-                .then(res => {
-                    console.log("Response ", res);
-                    let { valid, data } = handleSuccessResponse(res, responseCodes.successCode)
-                    if (valid) {
-                        afterSave()
-                        done("saved")
-                        toast.success(responseCodes.successMessage ? responseCodes.successMessage : `${entityName} created`)
-                        return
-                    }
-                    nope("")
-                    toast.error("Invalid Response")
-                })
-                .catch(e => {
-                    console.log(`Unable to create ${entityName}. Exception:`, e);
-                    let { valid, msg } = handleErrorResponse(e, responseCodes.errorCodes)
-                    nope(e)
-                    toast.error(msg)
-                })
-        })
+    if(!formStructure) {
+        changeMode('list')
     }
 
-    function handleCancel() {
-        onCancel()
+    async function handleSubmit(data: any) {
+        const params = {
+            document: JSON.stringify({ ...data }),
+            modelName: model,
+            collection: collection
+        }
+
+        try {
+            await uxpContext.executeService("Lucy", "AddNewDocument", params);
+            toast.success(`${entityName} created successfully`);
+            changeMode('list');
+        } catch (e) {
+            console.log("Exception:", e);
+        }
+
     }
 
     return <DynamicFormComponent
         formStructure={formStructure}
         onSubmit={handleSubmit}
-        onCancel={handleCancel}
-        onChange={onChange}
+        onCancel={() => changeMode('list')}
     />
 }
 

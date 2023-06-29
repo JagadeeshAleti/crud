@@ -17,22 +17,16 @@ const Widget1: React.FunctionComponent<IViolationTypesProps> = (props) => {
 
             <div className="page-content">
                 <CrudComponent
-                    entityName='Violation Types'
+                    entityName='User Type'
+                    model="crud"
+                    collection="users"
                     uxpContext={uxpContext}
-                    roles={{}}
                     list={{
                         default: {
-                            model: "crud",
-                            collection: "users",
                             itemId: "_id",
-                            responseCodes: {
-                                successCode: 103701,
-                                errorCodes: {
-                                    103702: [
-                                        { error: 'ERR_FETCHING_VIOLATIONS', message: 'Unable to get Violation Types. Something went wrong' }
-                                    ]
-                                }
-                            },
+                            canDelete: true,
+                            canEdit: true,
+                            canCreate: true,
                             columns: [
                                 {
                                     name: "Name",
@@ -52,13 +46,6 @@ const Widget1: React.FunctionComponent<IViolationTypesProps> = (props) => {
                             ],
                             deleteItem: {
                                 model: "crud",
-                                responseCodes: {
-                                    successCode: 201,
-                                    successMessage: "",
-                                    errorCodes: {
-                                        404: []
-                                    }
-                                }
                             },
                             toolbar: {
                                 search: {
@@ -69,10 +56,52 @@ const Widget1: React.FunctionComponent<IViolationTypesProps> = (props) => {
                         }
                     }}
                     add={{
-                        renderCustom: Create,
+                        default: {
+                            formStructure: [
+                                {
+                                    label: "Name",
+                                    name: "name",
+                                    type: "string",
+                                    validate: {
+                                        required: true
+                                    },
+                                },
+                                {
+                                    label: "Description",
+                                    name: "description",
+                                    type: "string",
+                                },
+                                {
+                                    label: "Amount",
+                                    name: "amount",
+                                    type: "string",
+                                }
+                            ]
+                        }
                     }}
                     edit={{
-                        renderCustom: Edit,
+                        default: {
+                            formStructure: [
+                                {
+                                    label: "Name",
+                                    name: "name",
+                                    type: "string",
+                                    validate: {
+                                        required: true
+                                    },
+                                },
+                                {
+                                    label: "Description",
+                                    name: "description",
+                                    type: "string",
+                                },
+                                {
+                                    label: "Amount",
+                                    name: "amount",
+                                    type: "string",
+                                }
+                            ]
+                        }
                     }}
 
                 />
