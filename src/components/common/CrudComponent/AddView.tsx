@@ -10,13 +10,12 @@ interface IAddItemFormProps extends IAddViewProps, IDefaultUXPProps {
 }
 
 const AddView: React.FunctionComponent<IAddItemFormProps> = (props) => {
-
     let { uxpContext, renderCustom: CustomAddView, changeMode } = props
 
     return <div className='mda-spa-crud-add-view-container'>
         {
             CustomAddView
-                ? <CustomAddView uxpContext={uxpContext} />
+                ? <CustomAddView uxpContext={uxpContext} changeMode={changeMode}/>
                 : <AddForm {...props} />
         }
     </div>

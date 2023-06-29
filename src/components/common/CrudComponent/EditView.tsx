@@ -8,17 +8,19 @@ import FormError from '../FormError'
 import DynamicFormComponent from './components/DynamicFormComponent'
 
 interface IEditItemFormProps extends IEditViewProps, IDefaultUXPProps {
-    entityName: string
+    entityName: string,
+    changeMode: any,
+    id: string
 }
 
 const EditView: React.FunctionComponent<IEditItemFormProps> = (props) => {
 
-    let { uxpContext, renderCustom: CustomAddView } = props
+    let { uxpContext, renderCustom: CustomAddView, changeMode, id } = props
 
     return <div className='mda-spa-crud-add-view-container'>
         {
             CustomAddView
-                ? <CustomAddView uxpContext={uxpContext} />
+                ? <CustomAddView uxpContext={uxpContext} changeMode={changeMode} id={id}/>
                 : <EditForm {...props} />
         }
     </div>

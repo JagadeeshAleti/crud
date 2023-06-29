@@ -26,7 +26,6 @@ interface IListProps extends IDefaultUXPProps, IListViewProps {
 const ListView: React.FunctionComponent<IListProps> = (props) => {
 
     let { uxpContext, renderCustom: CustomListComponent, roles } = props
-    // let { path } = useRouteMatch()
 
     return <div className={classNames("mda-spa-crud-component-list-container")}>
         {
@@ -42,14 +41,10 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
 
     let { show: showToolbar, buttons, search } = toolbar
 
-    // let { path } = useRouteMatch()
     let toast = useToast()
 
     let [deleteId, setDeleteId] = React.useState(null)
     let [counter, setCounter] = React.useState(0)
-    let [canAdd, setCanAdd] = React.useState(true)
-    let [canEdit, setCanEdit] = React.useState(true)
-    let [canDelete, setCanDelete] = React.useState(true)
     const [query, setQuery] = React.useState<string>('');
     const [searchQuery, setSearchQuery] = React.useState<string>('');
     const [data, setData] = React.useState<any[]>([]);
@@ -157,7 +152,7 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
                 <Button
                     icon={`${editIcon}`}
                     title={labels?.edit || 'Edit'}
-                    onClick={() => changeMode('edit')}
+                    onClick={() => changeMode('edit', item[itemId])}
                 />
                 {/* </Link>
                     } */}
@@ -251,16 +246,12 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
 
         <div className="toolbar">
             <div className="left">
-                {/* {canAdd &&
-                    <Link to={path + '/add'}> */}
                 <Button
                     className='add-button'
                     title={buttons?.add?.label || labels?.add || "Add"}
-                    onClick={() => changeMode('create')}
+                    onClick={() => changeMode('add')}
                     icon={`${plusIcon}`}
                 />
-                {/* </Link>
-                } */}
 
                 {buttons?.export?.show &&
                     <Button

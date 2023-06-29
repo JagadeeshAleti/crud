@@ -6,6 +6,7 @@ import { Conditional } from '../src/components/common/ConditionalComponent';
 import CrudComponent from './components/common/CrudComponent/CrudComponent';
 import DynamicFormComponent from './components/common/CrudComponent/components/DynamicFormComponent';
 import { handleErrorResponse, handleSuccessResponse } from './utils';
+import { tr } from 'date-fns/locale';
 
 
 interface IViolationTypesProps { uxpContext: IContextProvider }
@@ -13,19 +14,8 @@ interface IViolationTypesProps { uxpContext: IContextProvider }
 const Widget1: React.FunctionComponent<IViolationTypesProps> = (props) => {
     const toast = useToast();
     const { uxpContext } = props;
-    const [data, setData] = React.useState(null);
-    const [isLoading, setIsLoading] = React.useState<boolean>(true);
-
-    console.log({ data });
 
     return <>
-        <Conditional visible={false}>
-            <div className="loading-text">
-                <Loading />
-                <span>Loading Violation types</span>
-            </div>
-        </Conditional>
-        <div>Checking Crud</div>
         <Conditional visible={true}>
 
             <div className="page-content">
@@ -38,7 +28,6 @@ const Widget1: React.FunctionComponent<IViolationTypesProps> = (props) => {
                             model: "crud",
                             action: "getAllTypes",
                             itemId: "_id",
-                            // mapActionData,
                             responseCodes: {
                                 successCode: 103701,
                                 errorCodes: {
@@ -96,8 +85,10 @@ const Widget1: React.FunctionComponent<IViolationTypesProps> = (props) => {
     </>
 }
 
-const Create: React.FunctionComponent<{ uxpContext: IContextProvider }> = (props) => {
-    const { uxpContext } = props;
+const Create: React.FunctionComponent<{ uxpContext: IContextProvider, changeMode: any }> = (props) => {
+
+    const { uxpContext, changeMode } = props;
+
     const toast = useToast();
 
     const [formData, setFormData] = React.useState<any>({})
@@ -134,6 +125,7 @@ const Create: React.FunctionComponent<{ uxpContext: IContextProvider }> = (props
     async function handleSubmit(data: any) {
         uxpContext.executeAction("crud", "create", { ...data }, { json: true })
             .then(res => {
+                changeMode('list');
                 toast.success("User created successfully!!!");
             })
             .catch(e => {
@@ -146,7 +138,7 @@ const Create: React.FunctionComponent<{ uxpContext: IContextProvider }> = (props
         <DynamicFormComponent
             formStructure={structure}
             onSubmit={handleSubmit}
-            // onCancel={handleCancel}
+            onCancel={() => changeMode('list')}
             onChange={(prevData, newData) => {
                 setFormData(newData)
                 return newData
@@ -155,12 +147,22 @@ const Create: React.FunctionComponent<{ uxpContext: IContextProvider }> = (props
     </>
 }
 
-const Edit: React.FunctionComponent<{ uxpContext: IContextProvider }> = (props) => {
-    const { uxpContext } = props;
+const Edit: React.FunctionComponent<{ uxpContext: IContextProvider, changeMode: any, id: string }> = (props) => {
+    const { uxpContext, id, changeMode } = props;
+    console.log({ id, changeMode });
+
     const toast = useToast();
-    // let { id: _id } = useParams<{ id: string }>()
     const [formData, setFormData] = React.useState<any>({})
 
+    React.useEffect(() => {
+        getFormData();
+    }, []);
+
+    async function getFormData() {
+        const response = await uxpContext.executeAction('crud', 'getById', { _id: id }, { json: true });
+        console.log({ response });
+        setFormData(response)
+    }
     function getValue(field: string) {
         let value = ""
         if (formData && formData[field]) {
@@ -192,22 +194,19 @@ const Edit: React.FunctionComponent<{ uxpContext: IContextProvider }> = (props) 
     ];
 
     async function handleSubmit(data: any) {
-
-        uxpContext.executeAction("crud", "update", { ...data, id: '_id' }, { json: true })
-            .then(res => {
-                toast.success("User updated successfully")
-            })
-            .catch(e => {
-                console.log("Exception:", e);
-
-            })
+        try {
+            await uxpContext.executeAction("crud", "update", { ...formData, _id: id }, { json: true });
+            changeMode('list', null);
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     return <>
         <DynamicFormComponent
             formStructure={structure}
             onSubmit={handleSubmit}
-            // onCancel={handleCancel}
+            onCancel={() => changeMode('list')}
             onChange={(prevData, newData) => {
                 setFormData(newData)
                 return newData

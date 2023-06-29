@@ -1,7 +1,9 @@
 import { IContextProvider } from "./src/uxp";
 
 interface IDefaultUXPProps {
-    uxpContext: IContextProvider
+    uxpContext: IContextProvider,
+    changeMode?: any,
+    id?: string
 }
 
 interface IListColumn {
