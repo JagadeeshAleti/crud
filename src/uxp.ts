@@ -129,6 +129,7 @@ export interface IUserDetails {
 }
 export interface IContextProvider extends IPartialContextProvider {
     executeAction: (model: string, action: string, parameters: any, options?: ILucyActionExecutionOptions) => Promise<any>;
+    executeService: (app: string, service: string, parameters: any, options?: ILucyActionExecutionOptions) => Promise<any>;
     fireEvent: (eventID: string) => Promise<void>;
     hasAppRole: (roles: string | string[]) => Promise<boolean>;
     /**

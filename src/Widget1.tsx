@@ -1,12 +1,9 @@
 import * as React from 'react'
 import { IContextProvider } from './uxp';
-import { Loading, NotificationBlock, useToast } from 'uxp/components';
-import { useHistory, useParams } from 'react-router-dom';
+import { useToast } from 'uxp/components';
 import { Conditional } from '../src/components/common/ConditionalComponent';
 import CrudComponent from './components/common/CrudComponent/CrudComponent';
 import DynamicFormComponent from './components/common/CrudComponent/components/DynamicFormComponent';
-import { handleErrorResponse, handleSuccessResponse } from './utils';
-import { tr } from 'date-fns/locale';
 
 
 interface IViolationTypesProps { uxpContext: IContextProvider }
@@ -26,7 +23,7 @@ const Widget1: React.FunctionComponent<IViolationTypesProps> = (props) => {
                     list={{
                         default: {
                             model: "crud",
-                            action: "getAllTypes",
+                            collection: "users",
                             itemId: "_id",
                             responseCodes: {
                                 successCode: 103701,
@@ -55,7 +52,6 @@ const Widget1: React.FunctionComponent<IViolationTypesProps> = (props) => {
                             ],
                             deleteItem: {
                                 model: "crud",
-                                action: "delete",
                                 responseCodes: {
                                     successCode: 201,
                                     successMessage: "",
@@ -73,10 +69,10 @@ const Widget1: React.FunctionComponent<IViolationTypesProps> = (props) => {
                         }
                     }}
                     add={{
-                        renderCustom: Create
+                        renderCustom: Create,
                     }}
                     edit={{
-                        renderCustom: Edit
+                        renderCustom: Edit,
                     }}
 
                 />
@@ -85,9 +81,10 @@ const Widget1: React.FunctionComponent<IViolationTypesProps> = (props) => {
     </>
 }
 
-const Create: React.FunctionComponent<{ uxpContext: IContextProvider, changeMode: any }> = (props) => {
+const Create: React.FunctionComponent<{ uxpContext: IContextProvider, changeMode: any, model: string, collection: string }> = (props) => {
 
-    const { uxpContext, changeMode } = props;
+    const { uxpContext, changeMode, model, collection } = props;
+    console.log({ model, collection });
 
     const toast = useToast();
 
@@ -106,6 +103,9 @@ const Create: React.FunctionComponent<{ uxpContext: IContextProvider, changeMode
             label: "Name",
             name: "name",
             type: "string",
+            validate: {
+                required: true
+            },
             value: getValue("name")
         },
         {
@@ -123,14 +123,20 @@ const Create: React.FunctionComponent<{ uxpContext: IContextProvider, changeMode
     ];
 
     async function handleSubmit(data: any) {
-        uxpContext.executeAction("crud", "create", { ...data }, { json: true })
-            .then(res => {
-                changeMode('list');
-                toast.success("User created successfully!!!");
-            })
-            .catch(e => {
-                console.log("Exception:", e);
-            })
+        const params = {
+            document: JSON.stringify({ ...data }),
+            modelName: model,
+            collection: collection
+        }
+
+        try {
+            await props.uxpContext.executeService("Lucy", "AddNewDocument", params);
+            toast.success("User created successfully!!!");
+            changeMode('list');
+        } catch (e) {
+            console.log("Exception:", e);
+        }
+
     }
 
 
@@ -147,21 +153,37 @@ const Create: React.FunctionComponent<{ uxpContext: IContextProvider, changeMode
     </>
 }
 
-const Edit: React.FunctionComponent<{ uxpContext: IContextProvider, changeMode: any, id: string }> = (props) => {
-    const { uxpContext, id, changeMode } = props;
-    console.log({ id, changeMode });
+const Edit: React.FunctionComponent<{ uxpContext: IContextProvider, changeMode: any, id: string, model: string, collection: string }> = (props) => {
+    const { uxpContext, id, changeMode, model, collection } = props;
+    console.log({ model, collection });
 
     const toast = useToast();
+    const [modelKey, setModelKey] = React.useState('');
     const [formData, setFormData] = React.useState<any>({})
 
     React.useEffect(() => {
+        getModelKey();
         getFormData();
     }, []);
 
+    async function getModelKey() {
+        const result = await props.uxpContext.executeService('System', 'MetadataMap:KeyByname', { Name: model });
+        const details = JSON.parse(result);
+        const { Key } = details[0];
+        setModelKey(Key);
+    };
+
     async function getFormData() {
-        const response = await uxpContext.executeAction('crud', 'getById', { _id: id }, { json: true });
-        console.log({ response });
-        setFormData(response)
+        const params = {
+            collectionName: collection,
+            modelName: model,
+            max: 1,
+            filter: JSON.stringify({ _id: id })
+        };
+        const response = await uxpContext.executeService("Lucy", "GetPaginatedDocs", params);
+        const { data } = JSON.parse(response)[0];
+        const formData = JSON.parse(data)[0];
+        setFormData(formData)
     }
     function getValue(field: string) {
         let value = ""
@@ -177,6 +199,9 @@ const Edit: React.FunctionComponent<{ uxpContext: IContextProvider, changeMode: 
             label: "Name",
             name: "name",
             type: "string",
+            validate: {
+                required: true
+            },
             value: getValue("name")
         },
         {
@@ -195,7 +220,14 @@ const Edit: React.FunctionComponent<{ uxpContext: IContextProvider, changeMode: 
 
     async function handleSubmit(data: any) {
         try {
-            await uxpContext.executeAction("crud", "update", { ...formData, _id: id }, { json: true });
+            const params = {
+                _id: id,
+                document: JSON.stringify({ ...formData }),
+                model: modelKey,
+                collection: collection,
+                replace: ''
+            }
+            await props.uxpContext.executeService("Lucy", "UpdateDocument", params);
             changeMode('list', null);
         } catch (e) {
             console.log(e);

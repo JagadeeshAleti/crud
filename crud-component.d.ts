@@ -3,7 +3,9 @@ import { IContextProvider } from "./src/uxp";
 interface IDefaultUXPProps {
     uxpContext: IContextProvider,
     changeMode?: any,
-    id?: string
+    id?: string,
+    model?: string,
+    collection?: string
 }
 
 interface IListColumn {
@@ -33,7 +35,7 @@ interface IResponseCodes {
 interface IListViewProps {
     default?: {
         model: string, // to get the data
-        action: string,
+        collection: string,
         itemId: string,
         filterData?: (data: any[]) => any[],
         mapActionData?: (item: any) => any,
@@ -52,7 +54,6 @@ interface IListViewProps {
         }
         deleteItem?: { // set the if delete is enabled
             model: string,
-            action: string,
             responseCodes: IResponseCodes
         },
 

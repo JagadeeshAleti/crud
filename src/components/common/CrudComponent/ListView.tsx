@@ -37,18 +37,23 @@ const ListView: React.FunctionComponent<IListProps> = (props) => {
 }
 
 export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
-    let { uxpContext, entityName, roles, default: { model, action, labels, mapActionData, filterData, responseCodes, columns, pageSize, actions, deleteItem, itemId, toolbar }, renderCustom, changeMode } = props
+    let { uxpContext, entityName, roles, default: { model, collection, labels, mapActionData, filterData, responseCodes, columns, pageSize, actions, deleteItem, itemId, toolbar }, renderCustom, changeMode } = props
 
     let { show: showToolbar, buttons, search } = toolbar
 
     let toast = useToast()
 
+    const [modelKey, setModelKey] = React.useState('');
     let [deleteId, setDeleteId] = React.useState(null)
     let [counter, setCounter] = React.useState(0)
     const [query, setQuery] = React.useState<string>('');
     const [searchQuery, setSearchQuery] = React.useState<string>('');
     const [data, setData] = React.useState<any[]>([]);
 
+
+    React.useEffect(() => {
+        getModelKey();
+    }, []);
 
     // update search quey 
     const updateSearchQery = debounce(() => {
@@ -58,6 +63,13 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
     React.useEffect(() => {
         updateSearchQery()
     }, [query])
+
+    async function getModelKey() {
+        const result = await props.uxpContext.executeService('System', 'MetadataMap:KeyByname', { Name: model });
+        const details = JSON.parse(result);
+        const { Key } = details[0];
+        setModelKey(Key);
+    };
 
     const searchData = (query: string, records: any[]) => {
         let fields = search.searchableFields || []
@@ -81,19 +93,20 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
     }
 
     let getData = React.useCallback((max: number, last: string, args: any) => {
-        console.log("Get Data is calling");
 
         return new Promise<{ items: any[], pageToken: string }>((done, nope) => {
-            console.log("last ", last);
-
+            const paramsToService = {
+                collectionName: collection,
+                modelName: model,
+                max: 20,
+                filter: JSON.stringify({})
+            }
             let params: any = { max: max }
             if (last) params.last = last
-            uxpContext.executeAction(model, action, params, { json: true })
-                .then(data => {
-                    console.log("Response ", data);
-                    // let { valid, data } = handleSuccessResponse(res, responseCodes.successCode)
-
-                    // if (!valid || !data) throw new Error("Invalid response")
+            uxpContext.executeService("Lucy", "GetPaginatedDocs", paramsToService)
+                .then(response => {
+                    const [result] = JSON.parse(response);
+                    let data = JSON.parse(result?.data);
 
                     let pageToken = last
                     if (data.length > 0) {
@@ -114,8 +127,9 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
                     done({ items: [], pageToken: last })
                     toast.error(msg)
                 })
+
         })
-    }, [model, action, counter])
+    }, [model, collection, counter])
 
     let memorizedColumns = React.useMemo(() => {
         let _columns: IDataTableColumn[] = []
@@ -177,9 +191,14 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
 
     async function onDeleteItem(id: string) {
         if (deleteItem) {
-            let { model, action, responseCodes: deleteResponseCodes } = deleteItem
+            let { default: { collection } } = props;
             try {
-                await uxpContext.executeAction(model, action, { _id: id });
+                const params = {
+                    _id: id,
+                    model: modelKey,
+                    collection
+                }
+                await uxpContext.executeService("Lucy", "DeleteDocument", params);
                 toast.success(`Delete successfully!!!!`)
                 setCounter(prev => (prev += 1))
                 setDeleteId(null)

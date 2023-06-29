@@ -6,16 +6,18 @@ import DynamicFormComponent from './components/DynamicFormComponent'
 
 interface IAddItemFormProps extends IAddViewProps, IDefaultUXPProps {
     entityName: string,
-    changeMode: any
+    changeMode: any,
+    model: string,
+    collection: string
 }
 
 const AddView: React.FunctionComponent<IAddItemFormProps> = (props) => {
-    let { uxpContext, renderCustom: CustomAddView, changeMode } = props
+    let { uxpContext, renderCustom: CustomAddView, changeMode, model, collection } = props
 
     return <div className='mda-spa-crud-add-view-container'>
         {
             CustomAddView
-                ? <CustomAddView uxpContext={uxpContext} changeMode={changeMode}/>
+                ? <CustomAddView uxpContext={uxpContext} changeMode={changeMode} model={model} collection={collection} />
                 : <AddForm {...props} />
         }
     </div>
