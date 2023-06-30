@@ -62,10 +62,14 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
     }, [query])
 
     async function getModelKey() {
-        const result = await props.uxpContext.executeService('System', 'MetadataMap:KeyByname', { Name: model });
-        const details = JSON.parse(result);
-        const { Key } = details[0];
-        setModelKey(Key);
+        try {
+            const result = await props.uxpContext.executeService('System', 'MetadataMap:KeyByname', { Name: model });
+            const details = JSON.parse(result);
+            const { Key } = details[0];
+            setModelKey(Key);
+        } catch(e) {
+            toast.error("Something went wrong!!!")
+        }
     };
 
     const searchData = (query: string, records: any[]) => {
