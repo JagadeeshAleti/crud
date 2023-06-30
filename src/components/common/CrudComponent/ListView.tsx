@@ -34,7 +34,7 @@ const ListView: React.FunctionComponent<IListProps> = (props) => {
 }
 
 export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
-    let { uxpContext, entityName, model, collection, default: { labels, mapActionData, filterData, columns, pageSize, deleteItem, itemId, toolbar, canCreate, canDelete, canEdit }, renderCustom, changeMode } = props
+    let { uxpContext, entityName, model, collection, default: { labels, mapActionData, filterData, columns, pageSize, itemId, toolbar, canCreate, canDelete, canEdit }, renderCustom, changeMode } = props
 
     let { show: showToolbar, buttons, search } = toolbar
 
@@ -183,7 +183,6 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
 
 
     async function onDeleteItem(id: string) {
-        if (deleteItem) {
             let { collection } = props;
             try {
                 const params = {
@@ -198,7 +197,6 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
             } catch (e) {
                 console.log(e);
             }
-        }
     }
 
 

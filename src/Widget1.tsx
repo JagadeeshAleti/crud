@@ -44,9 +44,6 @@ const Widget1: React.FunctionComponent<IViolationTypesProps> = (props) => {
                                     columnWidth: ''
                                 }
                             ],
-                            deleteItem: {
-                                model: "crud",
-                            },
                             toolbar: {
                                 search: {
                                     show: true,

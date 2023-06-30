@@ -45,9 +45,6 @@ interface IListViewProps {
             delete?: boolean
             view?: boolean // not needed at the moment i think
         }
-        deleteItem?: { // set the if delete is enabled
-            model: string,
-        },
 
         toolbar?: {
             show?: boolean // toggle the toolbar  // default is true
