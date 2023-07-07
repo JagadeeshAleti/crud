@@ -18,11 +18,13 @@ const Widget1: React.FunctionComponent<IViolationTypesProps> = (props) => {
             <div className="page-content">
                 <CrudComponent
                     entityName='User Type'
-                    model="crud"
-                    collection="users"
+                    // model="crud"
+                    // collection="users"
                     uxpContext={uxpContext}
                     list={{
                         default: {
+                            model: "crud",
+                            action: "getAllTypes",
                             itemId: "_id",
                             canDelete: true,
                             canEdit: true,
@@ -44,16 +46,24 @@ const Widget1: React.FunctionComponent<IViolationTypesProps> = (props) => {
                                     columnWidth: ''
                                 }
                             ],
+                            deleteItem: {
+                                model: "crud",
+                                action: "delete"
+                            },
                             toolbar: {
                                 search: {
                                     show: true,
                                     searchableFields: ["name"]
-                                }
+                                },
+                                buttons: { export: { show: true, columns: { 'name': "Name", 'description': 'Description' } } }
+
                             }
                         }
                     }}
                     add={{
                         default: {
+                            model: "crud",
+                            action: "create",
                             formStructure: [
                                 {
                                     label: "Name",
@@ -78,6 +88,12 @@ const Widget1: React.FunctionComponent<IViolationTypesProps> = (props) => {
                     }}
                     edit={{
                         default: {
+                            getDetails: {
+                                model: "crud",
+                                action: "getById",
+                            },
+                            model: "crud",
+                            action: "update",
                             formStructure: [
                                 {
                                     label: "Name",

@@ -34,7 +34,7 @@ const ListView: React.FunctionComponent<IListProps> = (props) => {
 }
 
 export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
-    let { uxpContext, entityName, model, collection, default: { labels, mapActionData, filterData, columns, pageSize, itemId, toolbar, canCreate, canDelete, canEdit }, renderCustom, changeMode } = props
+    let { uxpContext, entityName, model, collection, default: { labels, mapActionData, filterData, columns, pageSize, itemId, toolbar, canCreate, canDelete, canEdit, action: listAction, model: listModel, deleteItem }, renderCustom, changeMode } = props
 
     let { show: showToolbar, buttons, search } = toolbar
 
@@ -49,7 +49,9 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
 
 
     React.useEffect(() => {
-        getModelKey();
+        if (model) {
+            getModelKey();
+        }
     }, []);
 
     // update search quey 
@@ -67,7 +69,7 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
             const details = JSON.parse(result);
             const { Key } = details[0];
             setModelKey(Key);
-        } catch(e) {
+        } catch (e) {
             toast.error("Something went wrong!!!")
         }
     };
@@ -93,40 +95,63 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
         })
     }
 
+    function setPageToken(last: string, data: any, args: any) {
+        let pageToken = last
+        if (data.length > 0) {
+            pageToken = data[data.length - 1][itemId];
+            if (!!filterData) data = filterData(data)
+            if (!!mapActionData) data = data.map(mapActionData);
+
+            data = searchData(args.query, data);
+            if (last == null) setData(data)
+            else setData(prev => ([...prev, ...data]))
+        }
+
+        return pageToken;
+    };
+
+
     let getData = React.useCallback((max: number, last: string, args: any) => {
 
         return new Promise<{ items: any[], pageToken: string }>((done, nope) => {
-            const paramsToService = {
-                collectionName: collection,
-                modelName: model,
-                max: 20,
-                filter: JSON.stringify({})
-            }
             let params: any = { max: max }
             if (last) params.last = last
-            uxpContext.executeService("Lucy", "GetPaginatedDocs", paramsToService)
-                .then(response => {
-                    const [result] = JSON.parse(response);
-                    let data = JSON.parse(result?.data);
 
-                    let pageToken = last
-                    if (data.length > 0) {
-                        pageToken = data[data.length - 1][itemId];
-                        if (!!filterData) data = filterData(data)
-                        if (!!mapActionData) data = data.map(mapActionData);
+            if (model && collection) {
+                const paramsToService = {
+                    collectionName: collection,
+                    modelName: model,
+                    max: 20,
+                    filter: JSON.stringify({})
+                };
 
-                        data = searchData(args.query, data);
-                        if (last == null) setData(data)
-                        else setData(prev => ([...prev, ...data]))
-                    }
+                uxpContext.executeService("Lucy", "GetPaginatedDocs", paramsToService)
+                    .then(response => {
+                        const [result] = JSON.parse(response);
+                        let data = JSON.parse(result?.data);
+                        const pageToken = setPageToken(last, data, args);
+                        done({ items: data, pageToken: pageToken })
 
-                    done({ items: data, pageToken: pageToken })
+                    }).catch(e => {
+                        console.log('Unable to load data to table. Exception: ', e);
+                        done({ items: [], pageToken: last })
+                        toast.error('Unable to load data to table. Exception')
+                    })
+            }
 
-                }).catch(e => {
-                    console.log('Unable to load data to table. Exception: ', e);
-                    done({ items: [], pageToken: last })
-                    toast.error('Unable to load data to table. Exception')
-                })
+            if (listModel && listAction) {
+                uxpContext.executeAction(listModel, listAction, params, { json: true })
+                    .then(res => {
+                        const pageToken = setPageToken(last, res, args);
+                        done({ items: res, pageToken: pageToken })
+
+                    }).catch(e => {
+                        console.log('Unable to load data to table. Exception: ', e);
+                        done({ items: [], pageToken: last })
+                        toast.error('Unable to load data to table. Exception')
+                    })
+            }
+
 
         })
     }, [model, collection, counter])
@@ -187,20 +212,25 @@ export const ListComponent: React.FunctionComponent<IListProps> = (props) => {
 
 
     async function onDeleteItem(id: string) {
-            let { collection } = props;
-            try {
+        let { collection } = props;
+        try {
+            const { model: deleteModel, action: deleteAction  } = deleteItem;
+            if(model && collection && !deleteModel && !deleteAction){
                 const params = {
                     _id: id,
                     model: modelKey,
                     collection
                 }
                 await uxpContext.executeService("Lucy", "DeleteDocument", params);
-                toast.success(`${entityName} deleted successfully!!!!`)
-                setCounter(prev => (prev += 1))
-                setDeleteId(null)
-            } catch (e) {
-                console.log(e);
+            } else {
+                await uxpContext.executeAction(deleteModel, deleteAction, { id: id }, { json: true });
             }
+            toast.success(`${entityName} deleted successfully!!!!`)
+            setCounter(prev => (prev += 1))
+            setDeleteId(null)
+        } catch (e) {
+            console.log(e);
+        }
     }
 
 

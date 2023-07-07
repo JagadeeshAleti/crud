@@ -29,7 +29,7 @@ const EditView: React.FunctionComponent<IEditItemFormProps> = (props) => {
 }
 
 const EditForm: React.FunctionComponent<IEditItemFormProps> = (props) => {
-    let { uxpContext, entityName, id, model, collection, changeMode, default: { formStructure } = {} } = props;
+    let { uxpContext, entityName, id, model, collection, changeMode, default: { getDetails: { model: detailsModel, action: detailsAction } = {}, formStructure, model: editModel, action: editAction } = {} } = props;
     if (!formStructure) {
         changeMode('list');
     }
@@ -64,9 +64,14 @@ const EditForm: React.FunctionComponent<IEditItemFormProps> = (props) => {
         };
 
         try {
-            const res = await uxpContext.executeService("Lucy", "GetPaginatedDocs", params);
-            const { data: d } = JSON.parse(res)[0];
-            let data = JSON.parse(d)[0];
+            let data: any;
+            if (model && collection && !detailsModel && !detailsAction) {
+                const res = await uxpContext.executeService("Lucy", "GetPaginatedDocs", params);
+                const { data: d } = JSON.parse(res)[0];
+                data = JSON.parse(d)[0];
+            } else {
+                data = await uxpContext.executeAction(detailsModel, detailsAction, { id: id }, { json: true });
+            }
             console.log({ data });
             if (data) {
                 let updated = formStructure.map(f => {
@@ -83,7 +88,6 @@ const EditForm: React.FunctionComponent<IEditItemFormProps> = (props) => {
             toast.error("Invalid Response")
             setError("Invalid Response")
         } catch (e) {
-
             console.log(`Unable to get ${entityName} details. Exception: `, e);
             setLoading(false)
         }
@@ -91,14 +95,18 @@ const EditForm: React.FunctionComponent<IEditItemFormProps> = (props) => {
 
     async function handleSubmit(data: any) {
         try {
-            const params = {
-                _id: id,
-                document: JSON.stringify({ ...data }),
-                model: modelKey,
-                collection: collection,
-                replace: ''
+            if (model && collection && !editModel && !editAction) {
+                const params = {
+                    _id: id,
+                    document: JSON.stringify({ ...data }),
+                    model: modelKey,
+                    collection: collection,
+                    replace: ''
+                }
+                await props.uxpContext.executeService("Lucy", "UpdateDocument", params);
+            } else {
+                await uxpContext.executeAction(editModel, editAction, { ...data, id }, { json: true })
             }
-            await props.uxpContext.executeService("Lucy", "UpdateDocument", params);
             toast.success(`${entityName} updated successfully!!!`)
             changeMode('list', null);
         } catch (e) {

@@ -27,6 +27,8 @@ interface IErrorCodes {
 }
 interface IListViewProps {
     default: {
+        model?: string,
+        action?: string,
         itemId: string,
         canDelete: boolean,
         canEdit: boolean,
@@ -45,6 +47,11 @@ interface IListViewProps {
             delete?: boolean
             view?: boolean // not needed at the moment i think
         }
+
+        deleteItem?: { // set the if delete is enabled
+            model: string,
+            action: string,
+        },
 
         toolbar?: {
             show?: boolean // toggle the toolbar  // default is true
@@ -138,6 +145,10 @@ interface IAddViewProps {
 
 interface IEditViewProps {
     default?: {
+        getDetails?: {
+            model: string, // to get the items detaisl 
+            action: string,
+        },
         model?: string, // to save updated record
         action?: string,
         formStructure: IFormFieldDefinition[]
@@ -150,8 +161,8 @@ interface IEditViewProps {
 
 interface ICrudComponentProps extends IDefaultUXPProps {
     entityName: string // entity name Ex. Parking Operator, Manufacturer
-    model: string,
-    collection: string,
+    model?: string,
+    collection?: string,
     list: IListViewProps,
     add: IAddViewProps
     edit: IEditViewProps

@@ -24,26 +24,32 @@ const AddView: React.FunctionComponent<IAddItemFormProps> = (props) => {
 }
 
 const AddForm: React.FunctionComponent<IAddItemFormProps> = (props) => {
-    let { uxpContext, entityName, model, collection, changeMode, default: { formStructure } = {}} = props
+    let { uxpContext, entityName, model, collection, changeMode, default: { formStructure, model: addModel, action: addAction } = {} } = props
     let toast = useToast()
 
-    if(!formStructure) {
+    if (!formStructure) {
         changeMode('list')
     }
 
     async function handleSubmit(data: any) {
-        const params = {
-            document: JSON.stringify({ ...data }),
-            modelName: model,
-            collection: collection
-        }
 
         try {
-            await uxpContext.executeService("Lucy", "AddNewDocument", params);
+            if (model && collection && !addAction && !addModel) {
+                const params = {
+                    document: JSON.stringify({ ...data }),
+                    modelName: model,
+                    collection: collection
+                }
+                await uxpContext.executeService("Lucy", "AddNewDocument", params);
+            } else {
+                await uxpContext.executeAction(addModel, addAction, data, { json: true });
+            }
             toast.success(`${entityName} created successfully`);
             changeMode('list');
+
         } catch (e) {
-            console.log("Exception:", e);
+            toast.error('Something went wrong');
+            changeMode('list');
         }
 
     }
